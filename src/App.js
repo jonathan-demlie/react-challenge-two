@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
+import "./style.css";
+import UserContactList from "./Components/UserContactList";
+import useContactList from "./CustomHooks/useContactList";
+import Header from "./Components/Header";
+import Paginator from "./Components/Paginator";
 
-function App() {
+export default function App() {
+  const {
+    hasNextPage,
+    hasPrevPage,
+    contactList,
+    isSyncing,
+    prevPage,
+    nextPage,
+    sync,
+    currentPageList,
+    page,
+    onFilter,
+    totalPages,
+    error,
+  } = useContactList();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header
+        isSyncing={isSyncing}
+        sync={sync}
+        onFilter={onFilter}
+        error={error}
+      />
+      {/* Do not edit test id in below div, it's added for testing purpose */}
+      <div data-testid="user-contact-list-wrapper">
+        <UserContactList listId="page" contactList={currentPageList} />
+      </div>
+      <Paginator
+        hasPrevPage={hasPrevPage}
+        prevPage={prevPage}
+        hasNextPage={hasNextPage}
+        nextPage={nextPage}
+        page={page}
+        totalPages={totalPages}
+      />
     </div>
   );
 }
-
-export default App;
